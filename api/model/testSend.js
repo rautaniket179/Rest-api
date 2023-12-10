@@ -4,7 +4,7 @@ const testSchema = new mongoose.Schema({
   testId: String,
   emailId: String,
   studentName: String,
-  token: String, // Add this line for the token field
+  // token: String, // Assuming this will store the generated token
 });
 
-module.exports = mongoose.model('testSend', testSchema);
+module.exports = mongoose.model('TestSend', testSchema);
