@@ -1,14 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const testSend = require('../model/testSend');
+const testSend = require('../model/testSend')
 const jwt = require('jsonwebtoken');
 
-router.post('/sendTest', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   console.log("I am in");
   try {
     // Extract data from the request body
     const { testId, studentName, emailId } = req.body;
+
+    console.log(testId)
+
+    // Validate if required data exists
+    if (!testId || !studentName || !emailId) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
     console.log('Received request with body:', req.body);
 
     // Save the data to MongoDB
@@ -20,19 +28,23 @@ router.post('/sendTest', async (req, res, next) => {
     console.log('Generated Token:', token);
 
     // Generate dynamic exam link based on the token
-    const examLink = `http://localhost:3000/exam?token=${token}`;
+    const examLink = `http://localhost:4000?token=${token}`;
 
     // Send the token to the user's email
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: 'dev1sprktechnologies@gmail.com',
-        pass: 'Kingk3@143',
+        pass: 'gslq alyb wcop didn',
       },
     });
+    
+    
 
     const mailOptions = {
-      from: 'dev1sprktechnologies@gmail.com',
+      from: '"Exam Link"  <dev1sprktechnologies@gmail.com>',
       to: emailId,
       subject: 'Exam Token',
       text: `Dear ${studentName},
@@ -45,18 +57,20 @@ router.post('/sendTest', async (req, res, next) => {
       Exam Administration Team`,
     };
 
+    // Send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to send email' });
+        console.error('Error sending email:', error); // Log the specific error
+        return res.status(500).json({ error: 'Failed to send email', specificError: error.message });
       } else {
-        console.log('Email sent: ' + info.response);
-        res.status(200).json({ message: 'Token and Exam link sent successfully' });
+        console.log('Email sent:', info.response);
+        return res.status(200).json({ message: 'Token and Exam link sent successfully' });
       }
     });
+    
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Internal server error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 });
 

@@ -29,7 +29,7 @@ router.post('/',(req,res,next)=>{
 
 })
     router.get('/',(req,res,next)=>{
-        question.find()
+        Question.find()
         .then(result=>{
             console.log(result,"hello")
             res.status(200).json({
