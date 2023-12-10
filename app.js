@@ -7,6 +7,7 @@ const test=require('./api/route/test');
 const examQuestion=require('./api/route/create-question')
 const bodyParser=require('body-parser')
 const sendMail =require('./api/route/testSend')
+const result = require('./api/route/result')
 var cors = require('cors');
 app.use(cors())
 const mongoose=require('mongoose');
@@ -26,6 +27,8 @@ app.use('/question',examQuestion)
 app.use('/faculty',faculty)
 app.use('/test',test)
 app.use('/sendTest',sendMail)
+app.use('/result',sendMail)
+
 
 // app.use('/login',login)
 app.use('/user', userRoute);

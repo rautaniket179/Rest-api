@@ -22,12 +22,15 @@ router.post('/', async (req, res, next) => {
     // Save the data to MongoDB
     const newTestSend = new testSend({ testId, studentName, emailId });
     await newTestSend.save();
+    const  testData = newTestSend; // Assuming MongoDB generates a unique _id for newTestSend
+ 
 
+   
     // Generate a JWT token that expires in 30 minutes
-    const token = jwt.sign({ emailId }, 'aniketraut@123', { expiresIn: '30m' });
+    const token = jwt.sign({ data: testData }, 'aniketraut@123', { expiresIn: '30m' ,  });
     console.log('Generated Token:', token);
 
-    // Generate dynamic exam link based on the token
+    // Generate dynamic exam link based on the token  
     const examLink = `http://localhost:4000?token=${token}`;
 
     // Send the token to the user's email
@@ -73,5 +76,20 @@ router.post('/', async (req, res, next) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+router.get('/',(req,res,next)=>{
+
+  testSend.findBy(req.params.id).then(result=>{
+      res.status(200).json({
+          data:result
+      })
+  })
+  .catch(err=>{
+      res.status(500).json({
+          error:'user not found'
+      })
+  })
+})
 
 module.exports = router;
