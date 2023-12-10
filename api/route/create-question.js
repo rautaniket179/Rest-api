@@ -47,9 +47,10 @@ router.post('/',(req,res,next)=>{
 
     router.get('/:subjectName',(req,res,next)=>{
        const subjectName= req.params.subjectName
+       console.log(subjectName)
 
        console.log(subjectName)
-       question.find({ subject_name: subjectName })
+       Question.find({ subject_name: subjectName })
        .then(result=>{
         console.log(subjectName)
         res.status(200).json({
@@ -58,7 +59,7 @@ router.post('/',(req,res,next)=>{
        })
        .catch(err=>{
         res.status(500).json({
-            error:err
+            error:err   
         })
        })
        
