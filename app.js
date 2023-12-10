@@ -1,5 +1,6 @@
 const express=require('express');
 const app=express();
+const result=require('./api/route/result')
 const  userRoute = require('./api/route/user');
 const student=require('./api/route/student');
 const login=require('./api/route/login');
@@ -26,8 +27,8 @@ app.use('/question',examQuestion)
 app.use('/faculty',faculty)
 app.use('/test',test)
 app.use('/sendTest',sendMail)
-
-// app.use('/login',login)
+app.use('/result',result)
+app.use('/login',login)
 app.use('/user', userRoute);
 app.use((req,res,next)=>{
     res.status(404).json({
@@ -45,28 +46,3 @@ app.listen(port, () => {
     
 module.exports = app;
 
-// const app = express();
-
-
-// const express = require("express");
-// const app = express();
-// let PORT = 5000;
-
-// const sendMail = require("./api/route/testSend");
-
-// app.get("/", (req, res) => {
-//   res.send("I am a server");
-// });
-
-// app.get("/mail", sendMail);
-// console.log("hello aniket how are you?")
-// const start = async () => {
-//   try {
-//     app.listen(PORT, () => {
-//       console.log(`I am live in port no.  ${PORT}`);
-//     });
-//   } catch (error) {}
-// };
-
-// start();
-// module.exports = app;

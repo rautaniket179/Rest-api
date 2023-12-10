@@ -39,6 +39,7 @@ router.post('/signUp', (req, res, next) => {
                                   message: 'User successfully created',
                                   new_user: savedUser
                               });
+                              console.log(savedUser);
                           })
                           .catch(saveError => {
                               res.status(500).json({

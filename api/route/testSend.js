@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const bodyParser=require('body-parser')
 const nodemailer = require('nodemailer');
 const testSend = require('../model/testSend');
 const jwt = require('jsonwebtoken');
+router.use(bodyParser.json());
 
 router.post('/sendTest', async (req, res, next) => {
   console.log("I am in");
@@ -14,7 +16,7 @@ router.post('/sendTest', async (req, res, next) => {
     // Save the data to MongoDB
     const newTestSend = new testSend({ testId, studentName, emailId });
     await newTestSend.save();
-
+     console.log(testId, studentName, emailId )
     // Generate a JWT token that expires in 30 minutes
     const token = jwt.sign({ emailId }, 'aniketraut@123', { expiresIn: '30m' });
     console.log('Generated Token:', token);

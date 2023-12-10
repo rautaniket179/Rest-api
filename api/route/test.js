@@ -70,5 +70,6 @@ router.get('/:testId',(req,res,next)=>{
      })
     })
     
- })
+ });
+ 
 module.exports = router;
