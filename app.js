@@ -27,7 +27,7 @@ app.use('/question',examQuestion)
 app.use('/faculty',faculty)
 app.use('/test',test)
 app.use('/sendTest',sendMail)
-app.use('/result',sendMail)
+app.use('/result',result)
 
 
 // app.use('/login',login)
